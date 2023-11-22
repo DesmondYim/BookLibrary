@@ -4,6 +4,7 @@
         <meta charset="utf-8"/>
         <script src="./index.js" defer></script>
         <link rel="stylesheet" href="./style.css">
+        <title>My Library</title>
     </head>
 
     <body>
@@ -11,6 +12,43 @@
         </div>
 
         <div id="workingInterface">
+            <button id="showForm">Add a book to library</button>
+    </br>
+
+    <div id="output">
+    </div>
+
+    <dialog>
+        <form name="bookForm">
+            <div class="formBox">
+                <label for="title">Book Title:</label>
+                <input type="text" id='title' placeholder="Title"/>
+            </div>
+
+            <div class="formBox">
+                <label for="author">Author:</label>
+                <input type="text" id="author" placeholder="Author Name" size="25"/>
+            </div>
+
+            <div class="formBox">
+                <label for="pages">Number of Pages</label>
+                <input type="number" id="pages" placeholder="###" size="4"/>
+            </div>
+
+            <div class="formBox">
+                <div>Read status:</div>
+                <input type="radio" id="read" name="readStatus" value="Read">
+                <label for="read">Read</label>
+            </br>
+                <input type="radio" id="notRead" name="readStatus" value="Not Read">
+                <label for="notRead">Not Read</label>
+            </div>
+
+            <button formmethod="dialog">Cancel</button>
+            <button id="submitBtn">Submit</button>
+
+        </form>
+    </dialog>
         </div>        
     </body>
 </html>

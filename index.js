@@ -9,3 +9,5 @@ function Book(title, author, pages, readStatus) {
     }
 }
 
+const harryPotter = new Book('Harry Potter', 'JK Rowling', '200', 'Read')
+harryPotter.info();
