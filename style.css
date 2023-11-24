@@ -1,0 +1,24 @@
+#gridContainer{
+    display: grid;
+    width:800px;
+    margin: 5px;
+    grid-template-columns: auto auto auto auto auto;
+    grid-template-rows: 2fr;
+    border: 1px black solid;    
+}
+
+p {
+margin-left: 1em;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.columnTitle{
+    margin: 1em;
+    font-weight: bolder;
+    text-decoration: underline;
+}
+
+.deleteBtn {
+    margin: 5px;
+}

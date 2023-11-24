@@ -11,7 +11,7 @@ function Book(title, author, pages, readStatus) {
 
 const showBtn = document.getElementById('showForm');
 const dialog = document.querySelector('dialog');
-const output = document.getElementById('output');
+const gridContainer = document.getElementById('gridContainer');
 const myLibrary = [];
 
 showBtn.addEventListener('click', () => {
@@ -23,31 +23,97 @@ function addBookToLibrary(book) {
     //push book into array library
 }
 
-function printBookInfo(book) {
-    const div = document.createElement('div');
-    div.classList = "bookCard";
-    output.appendChild(div);
-  
-    div.innerHTML += book.info();
+function createPara() {
+    return (document.createElement('p'));
 }
 
-const addBook = (ev) => {
-    ev.preventDefault();
+function addIndexClass(element, bookClass) {
+    return (element.classList = bookClass);
+}
 
+function appendBookToLibrary(titleContainer, authorContainer, pagesContainer,
+    readStatusContainer, deleteBtn){
+        function appendEle(element) {
+            return (gridContainer.appendChild(element));
+        }
+        
+        appendEle(titleContainer);
+        appendEle(authorContainer);
+        appendEle(pagesContainer);
+        appendEle(readStatusContainer);
+        appendEle(deleteBtn);
+}
+    
+function printBookInfo(book, titleContainer, authorContainer, pagesContainer,
+    readStatusContainer) {
+        titleContainer.innerHTML += book.title;
+        authorContainer.innerHTML += book.author;
+        pagesContainer.innerHTML += book.pages;
+        readStatusContainer.innerHTML += book.readStatus;
+}
+        
+const submit = (ev) => {
+    ev.preventDefault();
+            
+    const titleContainer = createPara();
+    const authorContainer = createPara();
+    const pagesContainer = createPara();
+    const readStatusContainer = createPara();
+    const deleteBtn = document.createElement('button');
     const title = document.getElementById('title').value;
     const author = document.getElementById('author').value;
     const pages = document.getElementById('pages').value;
     const read = document.querySelector('input[name="readStatus"]:checked').value;
-
+            
     let newBook = new Book(title, author, pages, read);
+            
+    addBookToLibrary(newBook);
+    const bookIndex = myLibrary.indexOf(newBook);
+    const bookClass = "book" + Number(bookIndex);
+
+    addIndexClass(titleContainer, bookClass);
+    addIndexClass(authorContainer, bookClass);
+    addIndexClass(pagesContainer, bookClass);
+    addIndexClass(readStatusContainer, bookClass)
+    readStatusContainer.classList.add('readStatus');
+    addIndexClass(deleteBtn, bookClass);
+    deleteBtn.classList.add('deleteBtn');
+    deleteBtn.innerHTML = "Delete";
+    
+    appendBookToLibrary(titleContainer, authorContainer, pagesContainer,
+        readStatusContainer, deleteBtn);
     
     document.forms[0].reset(); //clear form for next entry
 
-    addBookToLibrary(newBook);
-    printBookInfo(newBook);
-    console.log(myLibrary)
+    printBookInfo(newBook, titleContainer, authorContainer, pagesContainer, readStatusContainer);
+    
+    
+    deleteBtn.addEventListener("click", () => {
+        const bookElements = document.getElementsByClassName(bookClass);
+        function removeElements() {
+            for (i = 0; i < 5; i++) {
+            gridContainer.removeChild(bookElements[0]);
+            }
+        }
+
+        removeElements();
+    })
+
+    dialog.close();  
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('submitBtn').addEventListener('click', addBook);
+    document.getElementById('submitBtn').addEventListener('click', submit);
+})
+
+dialog.addEventListener("click", e => {
+    const dialogDimensions = dialog.getBoundingClientRect()
+    if (
+        e.clientX < dialogDimensions.left ||
+        e.clientX > dialogDimensions.right ||
+        e.clientY < dialogDimensions.top ||
+        e.clientY > dialogDimensions.bottom
+    ) {
+        dialog.close()
+    };
 })
