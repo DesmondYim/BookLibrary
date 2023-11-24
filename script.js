@@ -91,13 +91,15 @@ const submit = (ev) => {
     // handleReadClick();
 
     readStatusBtn.addEventListener("click", () => {
-        if(readStatus == "Read") {
-            readStatus = "Not Read";
-            readStatusBtn.innerHTML = "Not Read";
-        } else if (readStatus == "Not Read") {
-            readStatus = "Read";
-            readStatusBtn.innerHTML = "Read";
-        };
+        switch(readStatus) {
+            case ("Read"):
+                readStatus = "Not Read";
+                readStatusBtn.innerHTML = "Not Read";
+                break;
+            case ("Not Read"):
+                readStatus = "Read";
+                readStatusBtn.innerHTML = "Read";
+        }
     });
 
     deleteBtn.addEventListener("click", () => {
