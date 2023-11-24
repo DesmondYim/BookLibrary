@@ -32,7 +32,7 @@ function addIndexClass(element, bookClass) {
 }
 
 function appendBookToLibrary(titleContainer, authorContainer, pagesContainer,
-    readStatusContainer, deleteBtn){
+    readStatusBtn, deleteBtn){
         function appendEle(element) {
             return (gridContainer.appendChild(element));
         }
@@ -40,16 +40,18 @@ function appendBookToLibrary(titleContainer, authorContainer, pagesContainer,
         appendEle(titleContainer);
         appendEle(authorContainer);
         appendEle(pagesContainer);
-        appendEle(readStatusContainer);
+        appendEle(readStatusBtn);
         appendEle(deleteBtn);
 }
+
+
     
 function printBookInfo(book, titleContainer, authorContainer, pagesContainer,
-    readStatusContainer) {
+    readStatusBtn) {
         titleContainer.innerHTML += book.title;
         authorContainer.innerHTML += book.author;
         pagesContainer.innerHTML += book.pages;
-        readStatusContainer.innerHTML += book.readStatus;
+        readStatusBtn.innerHTML += book.readStatus;
 }
         
 const submit = (ev) => {
@@ -58,14 +60,14 @@ const submit = (ev) => {
     const titleContainer = createPara();
     const authorContainer = createPara();
     const pagesContainer = createPara();
-    const readStatusContainer = createPara();
+    const readStatusBtn = document.createElement('button');
     const deleteBtn = document.createElement('button');
     const title = document.getElementById('title').value;
     const author = document.getElementById('author').value;
     const pages = document.getElementById('pages').value;
-    const read = document.querySelector('input[name="readStatus"]:checked').value;
+    let readStatus = document.querySelector('input[name="readStatus"]:checked').value;
             
-    let newBook = new Book(title, author, pages, read);
+    let newBook = new Book(title, author, pages, readStatus);
             
     addBookToLibrary(newBook);
     const bookIndex = myLibrary.indexOf(newBook);
@@ -74,20 +76,30 @@ const submit = (ev) => {
     addIndexClass(titleContainer, bookClass);
     addIndexClass(authorContainer, bookClass);
     addIndexClass(pagesContainer, bookClass);
-    addIndexClass(readStatusContainer, bookClass)
-    readStatusContainer.classList.add('readStatus');
+    addIndexClass(readStatusBtn, bookClass)
+    readStatusBtn.classList.add('readStatus');
     addIndexClass(deleteBtn, bookClass);
     deleteBtn.classList.add('deleteBtn');
     deleteBtn.innerHTML = "Delete";
     
-    appendBookToLibrary(titleContainer, authorContainer, pagesContainer,
-        readStatusContainer, deleteBtn);
-    
+    appendBookToLibrary(titleContainer, authorContainer, pagesContainer, readStatusBtn, deleteBtn);
+        
     document.forms[0].reset(); //clear form for next entry
+        
+    printBookInfo(newBook, titleContainer, authorContainer, pagesContainer, readStatusBtn);
+    
+    // handleReadClick();
 
-    printBookInfo(newBook, titleContainer, authorContainer, pagesContainer, readStatusContainer);
-    
-    
+    readStatusBtn.addEventListener("click", () => {
+        if(readStatus == "Read") {
+            readStatus = "Not Read";
+            readStatusBtn.innerHTML = "Not Read";
+        } else if (readStatus == "Not Read") {
+            readStatus = "Read";
+            readStatusBtn.innerHTML = "Read";
+        };
+    });
+
     deleteBtn.addEventListener("click", () => {
         const bookElements = document.getElementsByClassName(bookClass);
         function removeElements() {
@@ -95,7 +107,6 @@ const submit = (ev) => {
             gridContainer.removeChild(bookElements[0]);
             }
         }
-
         removeElements();
     })
 
