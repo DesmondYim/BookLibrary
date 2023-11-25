@@ -43,24 +43,31 @@ function appendBookToLibrary(titleContainer, authorContainer, pagesContainer,
         appendEle(readStatusBtn);
         appendEle(deleteBtn);
 }
-
-
     
 function printBookInfo(book, titleContainer, authorContainer, pagesContainer,
-    readStatusBtn) {
+    readStatusBtn) {  
         titleContainer.innerHTML += book.title;
         authorContainer.innerHTML += book.author;
         pagesContainer.innerHTML += book.pages;
         readStatusBtn.innerHTML += book.readStatus;
+        
+        switch(readStatusBtn.innerHTML) {
+            case ('Read'):
+                readStatusBtn.style = "color:green";
+            break;
+            case ('Not Read'):
+                readStatusBtn.style = "color:red";
+            break;
+        }
 }
         
-const submit = (ev) => {
+const handleSubmitBtn = (ev) => {
     ev.preventDefault();
             
     const titleContainer = createPara();
     const authorContainer = createPara();
     const pagesContainer = createPara();
-    const readStatusBtn = document.createElement('button');
+    const readStatusBtn = createPara();
     const deleteBtn = document.createElement('button');
     const title = document.getElementById('title').value;
     const author = document.getElementById('author').value;
@@ -94,11 +101,14 @@ const submit = (ev) => {
         switch(readStatus) {
             case ("Read"):
                 readStatus = "Not Read";
+                readStatusBtn.style = "color:red";
                 readStatusBtn.innerHTML = "Not Read";
                 break;
             case ("Not Read"):
                 readStatus = "Read";
+                readStatusBtn.style = "color:green";
                 readStatusBtn.innerHTML = "Read";
+                break;
         }
     });
 
@@ -116,7 +126,7 @@ const submit = (ev) => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('submitBtn').addEventListener('click', submit);
+    document.getElementById('submitBtn').addEventListener('click', handleSubmitBtn);
 })
 
 dialog.addEventListener("click", e => {

@@ -19,6 +19,21 @@ margin-left: 1em;
     text-decoration: underline;
 }
 
+button:hover {
+    cursor: pointer;
+}
+
 .deleteBtn {
     margin: 5px;
+    background-color: red;
+    color: white;
+    box-shadow: black;
+}
+
+.readStatus {
+    font-weight: bold;
+}
+
+.readStatus:hover {
+    cursor: pointer;
 }
