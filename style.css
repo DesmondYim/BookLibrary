@@ -7,6 +7,18 @@
     border: 1px black solid;    
 }
 
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction:column;
+    margin: 0px;
+}
+
+main {
+    min-height:80vh;
+    margin-bottom: auto;
+}
+
 p {
 margin-left: 1em;
     margin-top: 5px;
@@ -36,4 +48,14 @@ button:hover {
 
 .readStatus:hover {
     cursor: pointer;
+}
+
+footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    min-height:15vh;
+    background-color: grey;
+    color:white;
+    margin-top: auto;
 }

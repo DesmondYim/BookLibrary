@@ -8,23 +8,30 @@
     </head>
 
     <body>
-        <div id="imgContainer">
-        </div>
-        
-        <div id="workingInterface">
-            <button id="showForm">Add a book to your library</button>
-            </br>
-            <div id="gridContainer">
-                <p class="columnTitle colStart">Book Title</p>
-                <p class="columnTitle">Author</p>
-                <p class="columnTitle">Pages</p>
-                <p class="columnTitle">Read Status</p>
-                <p class="columnTitle colEnd"></p>
+        <main>
+            <div id="imgContainer">
+                <img src="./book.jpg"/>
             </div>
-        </div>
-        
+            
+            <div id="workingInterface">
+                <button id="showForm">Add a book to your library</button>
+                </br>
+                <div id="gridContainer">
+                    <p class="columnTitle colStart">Book Title</p>
+                    <p class="columnTitle">Author</p>
+                    <p class="columnTitle">Pages</p>
+                    <p class="columnTitle">Read Status</p>
+                    <p class="columnTitle colEnd"></p>
+                </div>
+            </div>
+        </main>
+        <footer>
+            Image by <a href="https://pixabay.com/users/pexels-2286921/" target="_blank">&nbsp;Pexels&nbsp;
+            </a> from <a href="https://pixabay.com/" target="_blank">&nbsp;Pixabay</a>
+        </footer>
+            
         <dialog>
-            <form name="bookForm" id="bookFrom">
+            <form name="bookForm" id="bookForm">
                 <div class="formBox">
                     <label for="title">Book Title:</label>
                     <input id="title" type="text" placeholder="Title Name"/>
@@ -53,4 +60,5 @@
                 <button id="submitBtn">Submit</button>
             </form>
         </dialog>
+    </body>
 </html>
