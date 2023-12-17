@@ -27,37 +27,46 @@
             </div>
         </main>
         <footer>
-            Image by <a href="https://pixabay.com/users/pexels-2286921/" target="_blank">&nbsp;Pexels&nbsp;
+            <div>Image by <a href="https://pixabay.com/users/pexels-2286921/" target="_blank">&nbsp;Pexels&nbsp;
             </a> from <a href="https://pixabay.com/" target="_blank">&nbsp;Pixabay</a>
+            </div>
+        </br>
+            <div>Image by <a href="https://pixabay.com/users/blazingfirebug-6008933//" target="_blank">&nbsp;Brittney King&nbsp;
+            </a> from <a href="https://pixabay.com/" target="_blank">&nbsp;Pixabay</a>
+            </div>
         </footer>
             
         <dialog>
-            <form name="bookForm" id="bookForm">
+            <form name="bookForm" id="bookForm" novalidate>
                 <div class="formBox">
-                    <label for="title">Book Title:</label>
-                    <input id="title" type="text" placeholder="Title Name"/>
+                    <label for="title">Book Title<span>*</span>:</label>
+                    <input id="title" type="text" placeholder="Title Name" required/>
+                    <div id="titleInvalid" class="error"></div>
                 </div>
 
                 <div class="formBox">
-                    <label for="author">Author name:</label>
-                    <input id="author" type="text" placeholder="Author Name" size="25"/>
+                    <label for="author">Author name<span>*</span>:</label>
+                    <input id="author" type="text" placeholder="Author Name" size="25" required/>
+                    <div id="authorInvalid" class="error"></div>
                 </div>
 
                 <div class="formBox">
-                    <label for="pages">Number of Pages</label>
-                    <input id="pages" type="number" placeholder="####" size="4"/>
+                    <label for="pages">Number of Pages<span>*</span>:</label>
+                    <input id="pages" type="number" placeholder="####" size="4" required/>
+                    <div id="pageInvalid" class="error"></div>
                 </div>
 
                 <div class="formBox">
-                    <div>Read Status:</div>
-                    <input type="radio" id="read" name="readStatus" value="Read"/>
+                    <div>Read Status<span>*</span>:</div>
+                    <div id="readInvalid" class="error"></div>
+                    <input type="radio" id="read" name="readStatus" value="Read" required/>
                     <label for="read">Read</label>
                 </br>
-                    <input type="radio" id="notRead" name="readStatus" value="Not Read"/>
+                    <input type="radio" id="notRead" name="readStatus" value="Not Read" required/>
                     <label for="notRead">Not Read</label>
                 </div>
 
-                <button formmethod="dialog">Cancel</button>
+                <button formmethod="dialog" id="cancel">Cancel</button>
                 <button id="submitBtn">Submit</button>
             </form>
         </dialog>

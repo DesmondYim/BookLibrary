@@ -20,6 +20,16 @@ main {
     margin-right:auto;
 }
 
+span {
+    color: red;
+}
+
+.error {
+    color: red;
+    position: relative;
+    left: 2rem;
+}
+
 img {
     max-height: 85vh;
     width:auto;
@@ -58,15 +68,19 @@ img {
     left: 25vh;
 }
 
+/* HELP!
+New items appearing in grid is appearing at bottom of grid with min. height
+Need to ensure new items appear directly under old items*/
+
 #gridContainer{
     display: grid;
     width:800px;
     margin: 5px;
     grid-template-columns: auto auto auto auto auto;
-    grid-template-rows: 2fr;
+    grid-template-rows: 1fr;
     position: relative;
     top: 15vh;
-    min-height: 40vh;
+    /* min-height: 40vh; */
     background-color: rgba(241, 227, 209);
     border: 1px black solid;    
 }
@@ -91,6 +105,7 @@ button:hover {
 .deleteBtn {
     margin: 5px;
     background-color: red;
+    /* max-height: fit-content; */
     color: white;
     box-shadow: black;
 }
@@ -105,6 +120,7 @@ button:hover {
 
 footer {
     display: flex;
+    flex-direction:column; 
     justify-content: flex-end;
     align-items: flex-end;
     min-height:15vh;

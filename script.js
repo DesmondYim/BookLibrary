@@ -14,6 +14,64 @@ const dialog = document.querySelector('dialog');
 const gridContainer = document.getElementById('gridContainer');
 const myLibrary = [];
 
+
+function pageNaN() {
+    let warningMessage = document.getElementById("pageInvalid");
+    warningMessage.innerHTML = "Pages need to be reported as a number.";
+}
+
+function missingError(element, field) {
+    let warningMessage = document.getElementById(element);
+    warningMessage.innerHTML = `Please fill out ${field} field.`;
+}
+
+function missingReadStatus() {
+    let warningMessage = document.getElementById("readInvalid");
+    warningMessage.innerHTML = `Please select one of the following:`;
+}
+
+function displayError() {
+    let title = document.getElementById("title");
+    let author = document.getElementById("author");
+    let pages = document.getElementById("pages");
+    let readStatus = document.querySelector("input[name=readStatus]:checked")
+    
+    if (title.validity.valueMissing) {
+        missingError("titleInvalid", "title");
+    } else {
+        document.getElementById("titleInvalid").innerHTML = "";
+    }
+
+    if (author.validity.valueMissing) {
+        missingError("authorInvalid", "author");
+    } else {
+        document.getElementById("authorInvalid").innerHTML = "";
+    }
+
+    if (pages.validity.typeMismatch) {
+        pageNaN();
+    } else if (pages.validity.valueMissing) {
+        missingError("pageInvalid", "page");
+    } else {
+        document.getElementById("pageInvalid").innerHTML = "";
+    }
+
+    if(readStatus == null) {
+        missingReadStatus();
+    } else {
+        document.getElementById("readInvalid").innerHTML = "";
+    }
+}
+
+function handleError(title, author, pages, readStatus) {
+    if(title.checkValidity() === false ||
+    author.checkValidity() === false ||
+    pages.checkValidity() === false||
+    readStatus.checkValidity() === false) {
+        displayError();
+    }
+}
+
 showBtn.addEventListener('click', () => {
     dialog.showModal();
 })
@@ -60,6 +118,22 @@ function printBookInfo(book, titleContainer, authorContainer, pagesContainer,
             break;
         }
 }
+
+function clearError(element) {
+    element.innerHTML = "";
+}
+
+function clearAllErrors() {
+    const titleInput = document.getElementById('titleInvalid');
+    const authorInput = document.getElementById('authorInvalid');
+    const pagesInput = document.getElementById('pageInvalid');
+    let readInput = document.getElementById('readInvalid');
+
+    clearError(titleInput);
+    clearError(authorInput);
+    clearError(pagesInput);
+    clearError(readInput);  
+}
         
 const handleSubmitBtn = (ev) => {
     ev.preventDefault();
@@ -72,57 +146,67 @@ const handleSubmitBtn = (ev) => {
     const title = document.getElementById('title').value;
     const author = document.getElementById('author').value;
     const pages = document.getElementById('pages').value;
-    let readStatus = document.querySelector('input[name="readStatus"]:checked').value;
+    let readStatus = document.querySelector('input[name="readStatus"]').value;
+    const titleInput = document.getElementById('title');
+    const authorInput = document.getElementById('author');
+    const pagesInput = document.getElementById('pages');
+    let readStatusInput = document.querySelector('input[name="readStatus"]');
             
     let newBook = new Book(title, author, pages, readStatus);
+
+    handleError(titleInput, authorInput, pagesInput, readStatusInput);
+     
+    if(titleInput.checkValidity() === true &&
+    authorInput.checkValidity() === true &&
+    pagesInput.checkValidity() === true &&
+    readStatusInput.checkValidity() === true) {
+        addBookToLibrary(newBook);
+        const bookIndex = myLibrary.indexOf(newBook);
+        const bookClass = "book" + Number(bookIndex);
+    
+        addIndexClass(titleContainer, bookClass);
+        addIndexClass(authorContainer, bookClass);
+        addIndexClass(pagesContainer, bookClass);
+        addIndexClass(readStatusBtn, bookClass)
+        readStatusBtn.classList.add('readStatus');
+        addIndexClass(deleteBtn, bookClass);
+        deleteBtn.classList.add('deleteBtn');
+        deleteBtn.innerHTML = "Delete";
+        
+        appendBookToLibrary(titleContainer, authorContainer, pagesContainer, readStatusBtn, deleteBtn);
             
-    addBookToLibrary(newBook);
-    const bookIndex = myLibrary.indexOf(newBook);
-    const bookClass = "book" + Number(bookIndex);
-
-    addIndexClass(titleContainer, bookClass);
-    addIndexClass(authorContainer, bookClass);
-    addIndexClass(pagesContainer, bookClass);
-    addIndexClass(readStatusBtn, bookClass)
-    readStatusBtn.classList.add('readStatus');
-    addIndexClass(deleteBtn, bookClass);
-    deleteBtn.classList.add('deleteBtn');
-    deleteBtn.innerHTML = "Delete";
+        document.forms[0].reset(); //clear form for next entry
+            
+        printBookInfo(newBook, titleContainer, authorContainer, pagesContainer, readStatusBtn);
     
-    appendBookToLibrary(titleContainer, authorContainer, pagesContainer, readStatusBtn, deleteBtn);
-        
-    document.forms[0].reset(); //clear form for next entry
-        
-    printBookInfo(newBook, titleContainer, authorContainer, pagesContainer, readStatusBtn);
-    
-    // handleReadClick();
-
-    readStatusBtn.addEventListener("click", () => {
-        switch(readStatus) {
-            case ("Read"):
-                readStatus = "Not Read";
-                readStatusBtn.style = "color:red";
-                readStatusBtn.innerHTML = "Not Read";
-                break;
-            case ("Not Read"):
-                readStatus = "Read";
-                readStatusBtn.style = "color:green";
-                readStatusBtn.innerHTML = "Read";
-                break;
-        }
-    });
-
-    deleteBtn.addEventListener("click", () => {
-        const bookElements = document.getElementsByClassName(bookClass);
-        function removeElements() {
-            for (i = 0; i < 5; i++) {
-            gridContainer.removeChild(bookElements[0]);
+        readStatusBtn.addEventListener("click", () => {
+            switch(readStatus) {
+                case ("Read"):
+                    readStatus = "Not Read";
+                    readStatusBtn.style = "color:red";
+                    readStatusBtn.innerHTML = "Not Read";
+                    break;
+                case ("Not Read"):
+                    readStatus = "Read";
+                    readStatusBtn.style = "color:green";
+                    readStatusBtn.innerHTML = "Read";
+                    break;
             }
-        }
-        removeElements();
-    })
+        });
+    
+        deleteBtn.addEventListener("click", () => {
+            const bookElements = document.getElementsByClassName(bookClass);
+            function removeElements() {
+                for (i = 0; i < 5; i++) {
+                gridContainer.removeChild(bookElements[0]);
+                }
+            }
+            removeElements();
+        })
 
-    dialog.close();  
+        clearAllErrors();
+        dialog.close();
+    }    
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -139,4 +223,9 @@ dialog.addEventListener("click", e => {
     ) {
         dialog.close()
     };
+})
+
+const cancelBtn = document.getElementById('cancel');
+cancelBtn.addEventListener("click", () => {
+    clearAllErrors();
 })
